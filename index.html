@@ -21,6 +21,23 @@
             <label class="hint">JSON persists locally in this browser.</label>
           </div>
         </details>
+        <details>
+          <summary>Fetch from Figma API</summary>
+          <div class="controls-body">
+            <div class="controls-col">
+              <label>File Key</label>
+              <input id="figma-file-key" type="text" placeholder="e.g. AbCdEfGhIjKlMnOpQrStUv" />
+            </div>
+            <div class="controls-col">
+              <label>Personal Access Token</label>
+              <input id="figma-token" type="password" placeholder="figd_..." />
+            </div>
+            <div class="controls-row">
+              <button id="figma-fetch-btn" type="button">Fetch & Render</button>
+            </div>
+            <label class="hint">Token is used only in your browser. May be blocked by CORS.</label>
+          </div>
+        </details>
       </div>
       <div id="viewport" class="viewport" aria-label="Figma viewport"></div>
     </div>

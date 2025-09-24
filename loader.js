@@ -46,6 +46,9 @@
     const fileInput = getEl('file-input');
     const renderBtn = getEl('render-btn');
     const clearBtn = getEl('clear-btn');
+    const figmaFetchBtn = getEl('figma-fetch-btn');
+    const figmaFileKeyEl = getEl('figma-file-key');
+    const figmaTokenEl = getEl('figma-token');
 
     // Pre-populate textarea
     if (window.FIGMA_DATA) {
@@ -84,6 +87,53 @@
         setTextarea('');
         saveToStorage('');
         clearViewport();
+      });
+    }
+
+    if (figmaFetchBtn) {
+      figmaFetchBtn.addEventListener('click', async () => {
+        const fileKey = figmaFileKeyEl && figmaFileKeyEl.value.trim();
+        const token = figmaTokenEl && figmaTokenEl.value.trim();
+        if (!fileKey || !token) {
+          alert('Please enter both File Key and Personal Access Token.');
+          return;
+        }
+        try {
+          const res = await fetch(`https://api.figma.com/v1/files/${encodeURIComponent(fileKey)}`, {
+            headers: {
+              'X-Figma-Token': token
+            }
+          });
+          if (!res.ok) {
+            throw new Error(`Request failed (${res.status})`);
+          }
+          const json = await res.json();
+          // Find the first FRAME in the document to render
+          const doc = json && json.document;
+          if (!doc) throw new Error('Invalid response: no document');
+
+          function findFirstFrame(node) {
+            if (!node) return null;
+            if (node.type === 'FRAME') return node;
+            const children = node.children || [];
+            for (let i = 0; i < children.length; i += 1) {
+              const found = findFirstFrame(children[i]);
+              if (found) return found;
+            }
+            return null;
+          }
+
+          const firstFrame = findFirstFrame(doc);
+          if (!firstFrame) throw new Error('No FRAME found in file');
+          const text = JSON.stringify(firstFrame, null, 2);
+          setTextarea(text);
+          saveToStorage(text);
+          clearViewport();
+          renderJsonText(text);
+        } catch (err) {
+          console.error(err);
+          alert('Failed to fetch from Figma. Check key/token or CORS restrictions.');
+        }
       });
     }
   });

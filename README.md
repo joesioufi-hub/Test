@@ -35,3 +35,13 @@ Troubleshooting
 - For missing images, add mappings to `window.IMAGE_MAP` using the paint's `imageHash` as the key.
 - Check the DevTools console for warnings.
 
+Fetch from Figma API (optional)
+
+1. Open `index.html` and expand “Fetch from Figma API”.
+2. Enter your File Key (from the Figma file URL) and a Personal Access Token.
+3. Click “Fetch & Render”. The first `FRAME` found will be rendered.
+
+Notes:
+- This runs entirely in your browser; tokens are not sent anywhere else.
+- CORS may block the request depending on your environment and Figma’s policy.
+
