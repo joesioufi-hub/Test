@@ -1,0 +1,64 @@
+<!doctype html>
+<html>
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>Figma JSON Render</title>
+    <link rel="stylesheet" href="./styles.css" />
+  </head>
+  <body>
+    <div id="app">
+      <div class="controls" aria-label="Controls">
+        <details open>
+          <summary>Load Figma JSON</summary>
+          <div class="controls-body">
+            <textarea id="json-input" placeholder="Paste Figma JSON here"></textarea>
+            <div class="controls-row">
+              <input id="file-input" type="file" accept=".json,application/json" />
+              <button id="render-btn" type="button">Render</button>
+              <button id="clear-btn" type="button">Clear</button>
+            </div>
+            <label class="hint">JSON persists locally in this browser.</label>
+          </div>
+        </details>
+        <details>
+          <summary>Fetch from Figma API</summary>
+          <div class="controls-body">
+            <div class="controls-col">
+              <label>File Key</label>
+              <input id="figma-file-key" type="text" placeholder="e.g. AbCdEfGhIjKlMnOpQrStUv" />
+            </div>
+            <div class="controls-col">
+              <label>Personal Access Token</label>
+              <input id="figma-token" type="password" placeholder="figd_..." />
+            </div>
+            <div class="controls-row">
+              <button id="figma-fetch-btn" type="button">Fetch & Render</button>
+            </div>
+            <label class="hint">Token is used only in your browser. May be blocked by CORS.</label>
+          </div>
+        </details>
+      </div>
+      <div id="viewport" class="viewport" aria-label="Figma viewport"></div>
+    </div>
+
+    <script src="./figma-data.js"></script>
+    <script src="./renderer.js"></script>
+    <script src="./loader.js"></script>
+    <script>
+      window.addEventListener('DOMContentLoaded', () => {
+        const data = window.FIGMA_DATA;
+        const imageMap = window.IMAGE_MAP || {};
+        const viewport = document.getElementById('viewport');
+
+        if (!data) {
+          console.warn('No FIGMA_DATA found. Use the controls to load JSON.');
+          return; // loader.js will handle user-provided JSON
+        }
+
+        window.renderFigmaTo(viewport, data, { imageMap });
+      });
+    </script>
+  </body>
+  </html>
+

@@ -1,0 +1,47 @@
+Figma JSON Renderer (Static)
+
+How to use
+
+Option A — Paste or upload your JSON (no file edits):
+
+1. Open `index.html` in a browser.
+2. Use the “Load Figma JSON” panel to paste JSON or choose a `.json` file, then click Render.
+3. Data is saved locally; reloads will restore your last JSON.
+
+Option B — Hardcode JSON:
+
+1. Open `figma-data.js` and assign your Figma JSON root node to `window.FIGMA_DATA`.
+   - The root node should generally be a `FRAME` and contain `children`.
+   - If your design uses image fills, add `imageHash` mappings to `window.IMAGE_MAP`.
+2. Open `index.html` in a browser, or serve the folder with any static server.
+
+Notes
+
+- Supported node types: `FRAME`, `GROUP`, `RECTANGLE`, `TEXT`, `INSTANCE`, `VECTOR` (basic support).
+- Styles: fills (SOLID, IMAGE via mapping, basic linear gradient), strokes, corner radii, opacity, rotation, clipping, text styles (font size, weight, line height, alignment, color via fills).
+- Positioning uses `absoluteBoundingBox` when available; otherwise `x`, `y`, `width`, `height`.
+- Viewport size is set from the root node; fallback is 390×844.
+
+Quick local server (optional)
+
+```
+python3 -m http.server 5173
+# then open http://localhost:5173
+```
+
+Troubleshooting
+
+- If nothing appears, ensure `window.FIGMA_DATA` is set in `figma-data.js`.
+- For missing images, add mappings to `window.IMAGE_MAP` using the paint's `imageHash` as the key.
+- Check the DevTools console for warnings.
+
+Fetch from Figma API (optional)
+
+1. Open `index.html` and expand “Fetch from Figma API”.
+2. Enter your File Key (from the Figma file URL) and a Personal Access Token.
+3. Click “Fetch & Render”. The first `FRAME` found will be rendered.
+
+Notes:
+- This runs entirely in your browser; tokens are not sent anywhere else.
+- CORS may block the request depending on your environment and Figma’s policy.
+
