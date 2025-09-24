@@ -2,9 +2,17 @@ Figma JSON Renderer (Static)
 
 How to use
 
+Option A — Paste or upload your JSON (no file edits):
+
+1. Open `index.html` in a browser.
+2. Use the “Load Figma JSON” panel to paste JSON or choose a `.json` file, then click Render.
+3. Data is saved locally; reloads will restore your last JSON.
+
+Option B — Hardcode JSON:
+
 1. Open `figma-data.js` and assign your Figma JSON root node to `window.FIGMA_DATA`.
-   - The root node should generally be a `FRAME` (e.g., your iPhone frame) and contain `children`.
-   - If your design uses image fills with `imageHash`, add entries to `window.IMAGE_MAP` that map those hashes to image URLs under `./assets` or remote URLs.
+   - The root node should generally be a `FRAME` and contain `children`.
+   - If your design uses image fills, add `imageHash` mappings to `window.IMAGE_MAP`.
 2. Open `index.html` in a browser, or serve the folder with any static server.
 
 Notes
