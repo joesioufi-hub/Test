@@ -1,0 +1,45 @@
+/* Base reset */
+* { box-sizing: border-box; }
+html, body, #app { height: 100%; }
+body {
+  margin: 0;
+  font-family: ui-sans-serif, system-ui, -apple-system, Segoe UI, Roboto, Helvetica, Arial, "Apple Color Emoji", "Segoe UI Emoji";
+  background: #0f0f10;
+  color: #111;
+}
+
+/* Center the viewport */
+#app {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 24px;
+}
+
+.viewport {
+  position: relative;
+  width: 390px;  /* fallback; will be overridden by renderer if provided by data */
+  height: 844px; /* fallback; will be overridden by renderer if provided by data */
+  background: #fff;
+  border-radius: 32px;
+  box-shadow:
+    0 10px 30px rgba(0,0,0,0.25),
+    0 4px 10px rgba(0,0,0,0.2);
+  overflow: hidden;
+}
+
+.figma-layer {
+  position: absolute;
+  transform-origin: top left;
+}
+
+.text-layer {
+  white-space: pre-wrap;
+}
+
+.image-fill {
+  background-position: center;
+  background-repeat: no-repeat;
+  background-size: cover;
+}
+
